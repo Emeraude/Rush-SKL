@@ -121,7 +121,7 @@ void Array_dtor(ArrayClass* self)
   size_t i;
 
   if (!self) raise("Arguments must be initialized.");
-  for (i=0; i < self->_size; i++)
+  for (i=0; i < self->_size - 1; i++)
     {
       delete(self->_tab[i]);
     }
