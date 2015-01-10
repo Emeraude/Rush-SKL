@@ -30,6 +30,7 @@ Object		*new(Class *class, ...) {
 Object		*va_new(Class* class, va_list *ap) {
   Class		*new;
 
+  printf("SIZE TO ALLOCATE %s IS %u\n", class->__name__, class->__size__);
   if ((new = malloc(class->__size__)) == NULL
       || memcpy(new, class, class->__size__) == NULL)
     raise("Error on constructor.");

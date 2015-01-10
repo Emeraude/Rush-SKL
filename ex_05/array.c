@@ -34,7 +34,7 @@ void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  return (self->_idx == other->_idx);
+  return (self->_idx == other->_idx ? true : false);
 }
 
 bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
@@ -58,7 +58,8 @@ void ArrayIterator_incr(ArrayIteratorClass* self)
 Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  return (self->_array + self->_idx);
+  //return (self->_array + self->_idx);
+  return (self->_array->_tab[self->_idx]);
 }
 
 void ArrayIterator_setval(ArrayIteratorClass* self, ...)
@@ -110,8 +111,10 @@ void Array_ctor(ArrayClass* self, va_list* args)
 
   va_list default_argument;
 
+  printf("SIZE OF THE TAB IS : %u\n", self->_size);
   for (i=0; i < self->_size; i++)
     {
+      printf("INDEX IS : %u\n", i);
       va_copy(default_argument, *args);
       self->_tab[i] = va_new(self->_type, &default_argument);
       va_end(default_argument);

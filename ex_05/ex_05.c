@@ -16,10 +16,13 @@ int main()
     printf("array size: %zu\n", len(array));
     setitem(array, 5, 12);
     setitem(array, 6, 13);
+    printf("begin to run through\n");
+    int i = 0;
     while (lt(it, it_end))
     {
-        printf("%s\n", str(getval(it)));
+        printf("The int [%u] is : %s\n", i, str(getval(it)));
         incr(it);
+        i++;
     }
 
     delete(it);
