@@ -174,7 +174,7 @@ void Array_setitem(ArrayClass* self, ...)
   i = va_arg(ap, size_t);
   if (i > self->_size)
     raise("Argument idx is higher than array length.");
-  ((Class *)self->_tab[i])->__init__(self->_type, &ap);
+  ((Class *)self->_tab[i])->__init__(self->_tab[i], &ap);
   va_end(ap);
 }
 
