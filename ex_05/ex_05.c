@@ -9,13 +9,20 @@
 
 int main()
 {
-    Object* array = new(Array, 10, Int, 0);
+    Object* array = new(Array, 15, Int, 0);
     Object* it = begin(array);
     Object* it_end = end(array);
 
     printf("array size: %zu\n", len(array));
     setitem(array, 5, 12);
     setitem(array, 6, 13);
+    setitem(array, 7, 'd');
+    setitem(array, 8, -42);
+    setitem(array, 9, 42);
+    setitem(array, 10, 2);
+    setitem(array, 11, 5);
+
+
     printf("begin to run through\n");
     int i = 0;
     while (i < 10)
@@ -33,6 +40,8 @@ int main()
         i++;
     }
 
+    printf("should abort NOW :\n");
+    setitem(array, 9999, 5);
     delete(it);
     delete(it_end);
     delete(array);
