@@ -3,8 +3,11 @@
 #include <stdarg.h>
 
 #include "raise.h"
-#include "array.h"
 #include "new.h"
+#include "array.h"
+#include "int.h"
+#include "float.h"
+#include "char.h"
 
 typedef struct
 {
@@ -22,30 +25,38 @@ typedef struct {
 
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
+  if (!self) raise("Arguments must be initialized.");
+
 }
 
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 void ArrayIterator_incr(ArrayIteratorClass* self)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 static ArrayIteratorClass ArrayIteratorDescr = {
@@ -72,31 +83,66 @@ static Class* ArrayIterator = (Class*) &ArrayIteratorDescr;
 
 void Array_ctor(ArrayClass* self, va_list* args)
 {
+  size_t i;
+
+  if (!self) raise("Arguments must be initialized.");
+  self->_size = va_arg(*args, size_t);
+  self->_type = va_arg(*args, Class*);
+  self->_tab = NULL;
+  if (((ArrayClass *)self)->_size == 0) return ;
+  self->_tab = malloc(sizeof(Object*) * self->_size);
+  if (!self->_tab) raise("Out of memory.");
+
+  va_list default_argument;
+
+  for (i=0; i < self->_size; i++)
+    {
+      va_copy(default_argument, *args);
+      self->_tab[i] = va_new(self->_type, &default_argument);
+      va_end(default_argument);
+    }
 }
 
 void Array_dtor(ArrayClass* self)
 {
+  size_t i;
+
+  if (!self) raise("Arguments must be initialized.");
+  for (i=0; i < self->_size; i++)
+    {
+      delete(self->_tab[i]);
+    }
+  free(self->_tab);
 }
 
 size_t Array_len(ArrayClass* self)
 {
+  if (!self) raise("Arguments must be initialized.");
+  return (self->_size);
 }
 
 Iterator* Array_begin(ArrayClass* self)
 {
+  if (!self) raise("Arguments must be initialized.");
+  if (len(self) == 0) return NULL;
+  return (self->_array[0]);
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
+  if (!self) raise("Arguments must be initialized.");
+  if (len(self) == 0) return NULL;
+  return (self->_array[len(self) - 1]);
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
-
 
 void Array_setitem(ArrayClass* self, ...)
 {
+  if (!self) raise("Arguments must be initialized.");
 }
 
 static ArrayClass _descr = {
