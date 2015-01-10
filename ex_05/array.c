@@ -58,11 +58,6 @@ void ArrayIterator_incr(ArrayIteratorClass* self)
 Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  //return (self->_array + self->_idx);
-  printf(">>>>>>>>> %u <<<<<<<<<<\n", self->_idx);
-  printf("You get : %p\n", self->_array);
-  printf("You get : %p\n", self->_array->_tab);
-  printf("You get : %s\n", self->_array->_tab[self->_idx]);
   return (self->_array->_tab[self->_idx]);
 }
 
@@ -145,14 +140,14 @@ Iterator* Array_begin(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, 0, self->_tab));
+  return (new(ArrayIterator, 0, self));
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, len(&self->base) - 1, self->_tab));
+  return (new(ArrayIterator, len(&self->base) - 1, self));
 }
 
 Object* Array_getitem(ArrayClass* self, ...)

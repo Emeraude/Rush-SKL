@@ -24,6 +24,7 @@ int main()
         i++;
       }
 
+    printf("\n\n");
     i = 0;
     while (lt(it, it_end))
       {
