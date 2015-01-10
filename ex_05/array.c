@@ -150,12 +150,30 @@ Iterator* Array_end(ArrayClass* self)
 
 Object* Array_getitem(ArrayClass* self, ...)
 {
+  size_t i;
+  va_list ap;
+
   if (!self) raise("Arguments must be initialized.");
+  va_start(ap, self);
+  i = va_arg(ap, size_t);
+  if (i > self->_size)
+    raise("Argument idx is higher than array length.");
+  va_end(ap);
+  return self->_tab[i];
 }
 
 void Array_setitem(ArrayClass* self, ...)
 {
+  size_t i;
+  va_list ap;
+
   if (!self) raise("Arguments must be initialized.");
+  va_start(ap, self);
+  i = va_arg(ap, size_t);
+  if (i > self->_size)
+    raise("Argument idx is higher than array length.");
+  ((Class *)self->_tab[i])->__init__(self->_type, &ap);
+  va_end(ap);
 }
 
 static ArrayClass _descr = {
