@@ -25,7 +25,7 @@ typedef struct
 
 static IntClass _description = {
   { sizeof(IntClass), "Int", &Int_ctor, &Int_dtor, &Int_to_string, &Int_add, &Int_sub, &Int_mul, &Int_div, Int_eq, Int_gt, &Int_lt},
-    0, 0
+    0
 };
 
 Class* Int = (Class*) &_description;
@@ -34,7 +34,6 @@ static void Int_ctor(Object* self, va_list *args)
 {
   if (!self) raise("Arguments must be initialized.");
   ((IntClass *)self)->x = va_arg(*args, int);
-  ((IntClass *)self)->y = va_arg(*args, int);
 }
 
 static void Int_dtor(Object* self)
