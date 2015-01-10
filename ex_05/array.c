@@ -145,7 +145,7 @@ Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (self->_tab[len(self) - 1]);
+  return (self->_tab[len(&self->base) - 1]);
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
