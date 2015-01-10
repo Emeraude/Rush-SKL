@@ -18,8 +18,15 @@ int main()
     setitem(array, 6, 13);
     printf("begin to run through\n");
     int i = 0;
+    while (i < 10)
+      {
+        printf("the int [%u] is : %s\n", i, str(getitem(array, i)));
+        i++;
+      }
+
+    i = 0;
     while (lt(it, it_end))
-    {
+      {
         printf("The int [%u] is : %s\n", i, str(getval(it)));
         incr(it);
         i++;

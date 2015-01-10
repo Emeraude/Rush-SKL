@@ -114,7 +114,6 @@ void Array_ctor(ArrayClass* self, va_list* args)
   printf("SIZE OF THE TAB IS : %u\n", self->_size);
   for (i=0; i < self->_size; i++)
     {
-      printf("INDEX IS : %u\n", i);
       va_copy(default_argument, *args);
       self->_tab[i] = va_new(self->_type, &default_argument);
       va_end(default_argument);
