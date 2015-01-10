@@ -5,7 +5,7 @@
 ** Login   <broggi_t@epitech.eu>
 ** 
 ** Started on  Sat Jan 10 12:50:09 2015 broggi_t
-** Last update Sat Jan 10 12:50:09 2015 broggi_t
+** Last update Sat Jan 10 22:40:42 2015 Alexandre Kalatzis
 */
 
 #include <stdarg.h>
@@ -30,7 +30,6 @@ Object		*new(Class *class, ...) {
 Object		*va_new(Class* class, va_list *ap) {
   Class		*new;
 
-  printf("SIZE TO ALLOCATE %s IS %u\n", class->__name__, class->__size__);
   if ((new = malloc(class->__size__)) == NULL
       || memcpy(new, class, class->__size__) == NULL)
     raise("Error on constructor.");
@@ -40,7 +39,9 @@ Object		*va_new(Class* class, va_list *ap) {
 }
 
 void	delete(Object *ptr) {
+
   if (((Class *)ptr)->__del__)
     ((Class *)ptr)->__del__(ptr);
+
   free(ptr);
 }
