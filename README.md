@@ -1,6 +1,6 @@
 # Rush SKL
 
-Piscine C++ : first rush.
+Piscine C++ : first rush.  
 **Important** : the architecture of the project is done. We **DO NOT** create any sub-folder. (subject is really strict with that).
 
 ## TODO
