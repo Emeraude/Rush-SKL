@@ -59,6 +59,10 @@ Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   //return (self->_array + self->_idx);
+  printf(">>>>>>>>> %u <<<<<<<<<<\n", self->_idx);
+  printf("You get : %p\n", self->_array);
+  printf("You get : %p\n", self->_array->_tab);
+  printf("You get : %s\n", self->_array->_tab[self->_idx]);
   return (self->_array->_tab[self->_idx]);
 }
 
@@ -111,7 +115,6 @@ void Array_ctor(ArrayClass* self, va_list* args)
 
   va_list default_argument;
 
-  printf("SIZE OF THE TAB IS : %u\n", self->_size);
   for (i=0; i < self->_size; i++)
     {
       va_copy(default_argument, *args);
@@ -142,14 +145,14 @@ Iterator* Array_begin(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, 0, self->_tab[0]));
+  return (new(ArrayIterator, 0, self->_tab));
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, len(&self->base) - 1, self->_tab[len(&self->base) - 1]));
+  return (new(ArrayIterator, len(&self->base) - 1, self->_tab));
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
