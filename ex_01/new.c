@@ -11,6 +11,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "new.h"
+#include "raise.h"
 #include "point.h"
 
 void	*new(Class *class) {
@@ -18,7 +19,7 @@ void	*new(Class *class) {
 
   if ((new = malloc(sizeof(*class))) == NULL
       || memcpy(new, Point, sizeof(*Point)) == NULL)
-    return NULL;
+    raise("Error on constructor.");
   if (new->__init__)
     new->__init__(class);
   return new;

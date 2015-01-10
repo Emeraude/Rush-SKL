@@ -5,6 +5,7 @@
 *.sw[po]
 ~*
 *~
+a.out
 
 #ex_01/raise.h
 #ex_01/new.h
