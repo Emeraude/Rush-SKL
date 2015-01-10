@@ -10,7 +10,13 @@ Create an object of type \fIclass\fR and return it. Raise an error if alloc is i
 Delete the object pointed by \fIptr\fR.
 .TP
 \fBvoid const *object.to_string(Object *\fR\fIself\fB);\fR
-Return a string to the form \fB"<\fIname\fR (\fIint\fB, \fIint\fB)>"\fR. Note that this is string has been dynamically allocated. You have to free it.
+Return a string to the form \fB"<\fIname\fR (\fIint\fB, \fI...\fB)>"\fR. Note that this is string has been dynamically allocated. You have to free it.
+.TP
+\fBObject *object.add(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to an addition of \fIself\fR and \fIother\fR. This new object has to be destructed after usage.
+.TP
+\fBObject *object.sub(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to an substraction of \fIself\fR and \fIother\fR. This new object has to be destructed after usage.
 .SH BUGS
 .PP
 No known bug.
