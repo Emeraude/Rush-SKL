@@ -121,7 +121,7 @@ void Array_dtor(ArrayClass* self)
   size_t i;
 
   if (!self) raise("Arguments must be initialized.");
-  for (i=0; i < self->_size - 1; i++)
+  for (i=0; i < self->_size ; i++)
     {
       delete(self->_tab[i]);
     }
@@ -145,7 +145,7 @@ Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (self->_tab[len(&self->base) - 1]);
+  return (new(ArrayIterator, self->_tab[len(&self->base) - 1]));
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
