@@ -11,8 +11,8 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <string.h>
-#include "new.h"
 #include "raise.h"
+#include "new.h"
 #include "point.h"
 
 Object		*new(Class *class, ...) {
