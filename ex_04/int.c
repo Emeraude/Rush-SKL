@@ -46,7 +46,7 @@ static char const *Int_to_string(Object *self)
   char *str = NULL;
 
   if (!self) raise("Arguments must be initialized.");
-  asprintf(&str, "<Int (%d)>", ((IntClass *)self)->x);
+  asprintf(&str, "<Int (%i)>", ((IntClass *)self)->x);
   return (char const *)str;
 }
 
@@ -107,5 +107,5 @@ static int Int_gt(const Object *self, const Object *other)
 
 static int Int_lt(const Object *self, const Object *other)
 {
-  return (((IntClass *)self)->x <((IntClass *)other)->x);
+  return (((IntClass *)self)->x < ((IntClass *)other)->x);
 }

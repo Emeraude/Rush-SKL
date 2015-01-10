@@ -107,5 +107,5 @@ static int Char_gt(const Object *self, const Object *other)
 
 static int Char_lt(const Object *self, const Object *other)
 {
-  return (((CharClass *)self)->x <((CharClass *)other)->x);
+  return (((CharClass *)self)->x < ((CharClass *)other)->x);
 }

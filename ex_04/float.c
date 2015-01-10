@@ -107,5 +107,5 @@ static int Float_gt(const Object *self, const Object *other)
 
 static int Float_lt(const Object *self, const Object *other)
 {
-  return (((FloatClass *)self)->x <((FloatClass *)other)->x);
+  return (((FloatClass *)self)->x < ((FloatClass *)other)->x);
 }
