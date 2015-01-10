@@ -22,6 +22,16 @@ void test(Object* a, Object* b, Object* c)
     delete(c);
 }
 
+void compareAndDivide(Object* a, Object* b)
+{
+ if (gt(a, b))
+ printf("a > b\n");
+ else if (lt(a, b))
+ printf("a < b\n");
+ else
+ printf("a == b\n");
+ printf("b / a = %s\n", str(div(b, a)));
+}
 
 int main()
 {
@@ -29,6 +39,11 @@ int main()
     test(new(Char, 'a'), new(Char, 'a'), new(Char, 'd'));
     test(new(Float, 3.14159f), new(Float, 3.14159f), new(Float, 3.15f));
 
+    compareAndDivide(new(Int, 12), new(Int,2));
+    compareAndDivide(new(Int, 12), new(Int,12));
+    compareAndDivide(new(Int, 12), new(Int,22));
+    compareAndDivide(new(Int, -2), new(Int,12));
+    compareAndDivide(new(Int, 0), new(Int, 12));
     return 0;
 }
 

@@ -19,7 +19,7 @@ static int Char_lt(const Object *self, const Object *other);
 
 typedef struct
 {
-    Class base;
+  Class base;
   char x;
 } CharClass;
 
