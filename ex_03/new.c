@@ -13,7 +13,6 @@
 #include <string.h>
 #include "new.h"
 #include "raise.h"
-#include "point.h"
 
 Object		*new(Class *class, ...) {
   Class		*new;
