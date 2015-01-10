@@ -6,7 +6,7 @@
 
 typedef struct
 {
-    Class base;
+  Class base;
   int x, y, z;
 } VertexClass;
 
@@ -14,23 +14,22 @@ static void Vertex_ctor(Object* self, va_list *args)
 {
   ((VertexClass *)self)->x = va_arg(*args, int);
   ((VertexClass *)self)->y = va_arg(*args, int);
+  ((VertexClass *)self)->z = va_arg(*args, int);
 }
 
 static void Vertex_dtor(Object* self)
 {
-    (void) self;
-    printf("~Vertex()\n");
+  ((PointClass *)self)->base.__str__(NULL);
 }
 
 static char const *Vertex_to_string_t(Object *self) {
   static char *str = NULL;
 
   free(str);
-  printf("<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
-	 ((VertexClass *)self)->y), ((VertexClass *)self)->z);
-  asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
+  str = NULL;
+  if (self)
+    asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
 	   ((VertexClass *)self)->y, ((VertexClass *)self)->z);
-  printf("%s\n", str);
   return (char const *)str;
 }
 
