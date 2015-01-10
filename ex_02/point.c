@@ -18,14 +18,12 @@ static void Point_ctor(Object* self, va_list *args)
 
 static void Point_dtor(Object* self)
 {
-  ((PointClass *)self)->base.__str__(NULL);
+  (void)self;
 }
 
 static char const *Point_to_string(Object *self) {
-  static char *str = NULL;
+  char *str;
 
-  free(str);
-  str = NULL;
   if (self)
     asprintf(&str, "<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
   return (char const *)str;
