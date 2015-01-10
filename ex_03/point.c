@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <stdio.h>
+#include "raise.h"
 #include "new.h"
 #include "point.h"
 
@@ -26,25 +27,22 @@ Class* Point = (Class*) &_description;
 
 static void Point_ctor(Object* self, va_list *args)
 {
-  if (!self) return ;
+  if (!self) raise("Arguments must be initialized.");
   ((PointClass *)self)->x = va_arg(*args, int);
   ((PointClass *)self)->y = va_arg(*args, int);
 }
 
 static void Point_dtor(Object* self)
 {
-  if (!self) return ;
-  ((PointClass *)self)->base.__str__(NULL);
+  if (!self) raise("Arguments must be initialized.");
 }
 
 static char const *Point_to_string(Object *self)
 {
   char *str = NULL;
 
-  free(str);
-  str = NULL;
-  if (self)
-    asprintf(&str, "<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
+  if (!self) raise("Arguments must be initialized.");
+  asprintf(&str, "<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
   return (char const *)str;
 }
 
@@ -52,9 +50,8 @@ static Object *Point_add(const Object *self, const Object *other)
 {
   Object *add;
 
-  if (!self) return NULL;
+  if (!self || !other) raise("Arguments must be initialized.");
   add = new(Point, ((PointClass *)self)->x, ((PointClass *)self)->y);
-  if (!other) return add;
   ((PointClass *)add)->x += ((PointClass *)other)->x;
   ((PointClass *)add)->y += ((PointClass *)other)->y;
   return add;
@@ -64,7 +61,7 @@ static Object *Point_sub(const Object *self, const Object *other)
 {
   Object *sub;
 
-  if (!self) return NULL;
+  if (!self || !other) raise("Arguments must be initialized.");
   sub = new(Point, ((PointClass *)self)->x, ((PointClass *)self)->y);
   if (!other || !sub) return sub;
   ((PointClass *)sub)->x -= ((PointClass *)other)->x;

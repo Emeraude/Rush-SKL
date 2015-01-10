@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <stdio.h>
+#include "raise.h"
 #include "new.h"
 #include "vertex.h"
 
@@ -26,7 +27,7 @@ Class* Vertex = (Class*) &_description;
 
 static void Vertex_ctor(Object* self, va_list *args)
 {
-  if (!self) return;
+  if (!self) raise("Arguments must be initialized.");
   ((VertexClass *)self)->x = va_arg(*args, int);
   ((VertexClass *)self)->y = va_arg(*args, int);
   ((VertexClass *)self)->z = va_arg(*args, int);
@@ -34,15 +35,14 @@ static void Vertex_ctor(Object* self, va_list *args)
 
 static void Vertex_dtor(Object* self)
 {
-  if (!self) return ;
-  ((VertexClass *)self)->base.__str__(NULL);
+  if (!self) raise("Arguments must be initialized.");
 }
 
 static char const *Vertex_to_string_t(Object *self)
 {
-  static char *str = NULL;
+  char *str = NULL;
 
-  if (!self) return NULL;
+  if (!self) raise("Arguments must be initialized.");
   asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
            ((VertexClass *)self)->y, ((VertexClass *)self)->z);
   return (char const *)str;  
@@ -52,9 +52,8 @@ static Object *Vertex_add(const Object *self, const Object *other)
 {
   Object *add;
 
-  if (!self) return NULL;
+  if (!self || !other) raise("Arguments must be initialized.");
   add = new(Vertex, ((VertexClass *)self)->x, ((VertexClass *)self)->y, ((VertexClass *)self)->z);
-  if (!other) return add;
   ((VertexClass *)add)->x += ((VertexClass *)other)->x;
   ((VertexClass *)add)->y += ((VertexClass *)other)->y;
   ((VertexClass *)add)->z += ((VertexClass *)other)->z;
@@ -65,9 +64,8 @@ static Object *Vertex_sub(const Object *self, const Object *other)
 {
   Object *sub;
 
-  if (!self) return NULL;
+  if (!self || !other) raise("Arguments must be initialized.");
   sub = new(Vertex, ((VertexClass *)self)->x, ((VertexClass *)self)->y, ((VertexClass *)self)->z);
-  if (!other || !sub) return sub;
   ((VertexClass *)sub)->x -= ((VertexClass *)other)->x;
   ((VertexClass *)sub)->y -= ((VertexClass *)other)->y;
   ((VertexClass *)sub)->z -= ((VertexClass *)other)->z;
