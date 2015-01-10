@@ -12,8 +12,8 @@ static char const *Point_to_string(Object *self);
 
 typedef struct
 {
-    Class base;
-    int x, y;
+  Class base;
+  int x, y;
 } PointClass;
 
 static PointClass _description = {

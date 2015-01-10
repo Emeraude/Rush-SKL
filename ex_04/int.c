@@ -19,8 +19,8 @@ static int Int_lt(const Object *self, const Object *other);
 
 typedef struct
 {
-    Class base;
-  int x, y;
+  Class base;
+  int x;
 } IntClass;
 
 static IntClass _description = {
@@ -46,7 +46,7 @@ static char const *Int_to_string(Object *self)
   char *str = NULL;
 
   if (!self) raise("Arguments must be initialized.");
-  asprintf(&str, "<Int (%d, %d)>", ((IntClass *)self)->x, ((IntClass *)self)->y);
+  asprintf(&str, "<Int (%i)>", ((IntClass *)self)->x);
   return (char const *)str;
 }
 
@@ -55,9 +55,8 @@ static Object *Int_add(const Object *self, const Object *other)
   Object *add;
 
   if (!self || !other) raise("Arguments must be initialized.");
-  add = new(Int, ((IntClass *)self)->x, ((IntClass *)self)->y);
+  add = new(Int, ((IntClass *)self)->x);
   ((IntClass *)add)->x += ((IntClass *)other)->x;
-  ((IntClass *)add)->y += ((IntClass *)other)->y;
   return add;
 }
 
@@ -66,10 +65,8 @@ static Object *Int_sub(const Object *self, const Object *other)
   Object *sub;
 
   if (!self || !other) raise("Arguments must be initialized.");
-  sub = new(Int, ((IntClass *)self)->x, ((IntClass *)self)->y);
-  if (!other || !sub) return sub;
+  sub = new(Int, ((IntClass *)self)->x);
   ((IntClass *)sub)->x -= ((IntClass *)other)->x;
-  ((IntClass *)sub)->y -= ((IntClass *)other)->y;
   return sub;
 }
 
@@ -78,10 +75,8 @@ static Object *Int_mul(const Object *self, const Object *other)
   Object *sub;
 
   if (!self || !other) raise("Arguments must be initialized.");
-  sub = new(Int, ((IntClass *)self)->x, ((IntClass *)self)->y);
-  if (!other || !sub) return sub;
+  sub = new(Int, ((IntClass *)self)->x);
   ((IntClass *)sub)->x *= ((IntClass *)other)->x;
-  ((IntClass *)sub)->y *= ((IntClass *)other)->y;
   return sub;
 }
 
@@ -90,11 +85,9 @@ static Object *Int_div(const Object *self, const Object *other)
   Object *sub;
 
   if (!self || !other) raise("Arguments must be initialized.");
-  if (!other->x) raise("Dividing by zero");
-  sub = new(Int, ((IntClass *)self)->x, ((IntClass *)self)->y);
-  if (!other || !sub) return sub;
+  if (!((IntClass *)other)->x) raise("Dividing by zero");
+  sub = new(Int, ((IntClass *)self)->x);
   ((IntClass *)sub)->x /= ((IntClass *)other)->x;
-  ((IntClass *)sub)->y /= ((IntClass *)other)->y;
   return sub;
 }
 
@@ -111,5 +104,5 @@ static int Int_gt(const Object *self, const Object *other)
 
 static int Int_lt(const Object *self, const Object *other)
 {
-  return (((IntClass *)self)->x <((IntClass *)other)->x);
+  return (((IntClass *)self)->x < ((IntClass *)other)->x);
 }

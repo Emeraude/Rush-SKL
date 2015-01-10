@@ -10,8 +10,8 @@
 
 #include <malloc.h>
 #include <string.h>
-#include "new.h"
 #include "raise.h"
+#include "new.h"
 #include "point.h"
 
 void	*new(Class *class) {

@@ -3,20 +3,20 @@
 
 typedef struct
 {
-    Class base;
-    int x, y;
+  Class base;
+  int x, y;
 } PointClass;
 
 static void Point_ctor(Object* self)
 {
-    (void) self;
-    printf("Point()\n");
+  (void) self;
+  printf("Point()\n");
 }
 
 static void Point_dtor(Object* self)
 {
-    (void) self;
-    printf("~Point()\n");
+  (void) self;
+  printf("~Point()\n");
 }
 
 static PointClass _description = {
