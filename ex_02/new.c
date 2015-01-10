@@ -32,7 +32,7 @@ Object		*va_new(Class* class, va_list *ap) {
       || memcpy(new, class, sizeof(*class)) == NULL)
     raise("Error on constructor.");
   if (new->__init__)
-    new->__init__(class, ap);
+    new->__init__(new, ap);
   return (Object *)new;
 }
 
