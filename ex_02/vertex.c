@@ -19,17 +19,15 @@ static void Vertex_ctor(Object* self, va_list *args)
 
 static void Vertex_dtor(Object* self)
 {
-  ((VertexClass *)self)->base.__str__(NULL);
+  (void)self;
 }
 
 static char const *Vertex_to_string_t(Object *self) {
-  static char *str = NULL;
+  char *str;
 
-  free(str);
-  str = NULL;
   if (self)
     asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
-	   ((VertexClass *)self)->y, ((VertexClass *)self)->z);
+	     ((VertexClass *)self)->y, ((VertexClass *)self)->z);
   return (char const *)str;
 }
 
