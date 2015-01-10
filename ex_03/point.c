@@ -14,8 +14,8 @@ static Object *Point_sub(const Object *self, const Object *other);
 
 typedef struct
 {
-    Class base;
-    int x, y;
+  Class base;
+  int x, y;
 } PointClass;
 
 static PointClass _description = {
