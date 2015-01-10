@@ -1,4 +1,6 @@
+#define _GNU_SOURCE
 #include <stdarg.h>
+#include <malloc.h>
 #include <stdio.h>
 #include "point.h"
 
@@ -22,13 +24,17 @@ static void Point_dtor(Object* self)
 }
 
 static char const *Point_to_string_t(Object *self) {
-  char const *str;
-  sprintf(str, "<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
-  return str;
+  static char *str = NULL;
+
+  free(str);
+  printf("<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
+  asprintf(&str, "<Point (%d, %d)>", ((PointClass *)self)->x, ((PointClass *)self)->y);
+  printf("%s\n", str);
+  return (char const *)str;
 }
 
 static PointClass _description = {
-  { sizeof(PointClass), "Point", &Point_ctor, &Point_dtor,  },
+  { sizeof(PointClass), "Point", &Point_ctor, &Point_dtor, &Point_to_string_t},
     0, 0
 };
 
