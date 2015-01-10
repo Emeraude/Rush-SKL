@@ -34,7 +34,8 @@ static void Vertex_ctor(Object* self, va_list *args)
 
 static void Vertex_dtor(Object* self)
 {
-  (void)self;
+  if (!self) return ;
+  ((VertexClass *)self)->base.__str__(NULL);
 }
 
 static char const *Vertex_to_string_t(Object *self)
@@ -44,7 +45,7 @@ static char const *Vertex_to_string_t(Object *self)
   if (!self) return NULL;
   asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
            ((VertexClass *)self)->y, ((VertexClass *)self)->z);
-  return (char const *)str;
+  return (char const *)str;  
 }
 
 static Object *Vertex_add(const Object *self, const Object *other)
