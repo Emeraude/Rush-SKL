@@ -46,7 +46,7 @@ static char const *Float_to_string(Object *self)
   char *str = NULL;
 
   if (!self) raise("Arguments must be initialized.");
-  asprintf(&str, "<Float (%d)>", ((FloatClass *)self)->x);
+  asprintf(&str, "<Float (%f)>", ((FloatClass *)self)->x);
   return (char const *)str;
 }
 
