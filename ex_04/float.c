@@ -96,7 +96,7 @@ static Object *Float_div(const Object *self, const Object *other)
 
 static int Float_eq(const Object *self, const Object *other)
 {
-  if (!self || !other) raise("Arguments must be initialized.");  
+  if (!self || !other) raise("Arguments must be initialized.");
   return (((FloatClass *)self)->x == ((FloatClass *)other)->x);
 }
 
