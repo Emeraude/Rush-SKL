@@ -23,10 +23,11 @@ typedef struct {
     size_t _idx;
 } ArrayIteratorClass;
 
+// args: (1: size_t _idx) (2: ArrayClass* _array)
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
   if (!self) raise("Arguments must be initialized.");
-  self->_idx = 0;
+  self->_idx = va_arg(*args, size_t);
   self->_array = va_arg(*args, ArrayClass*);
 }
 
@@ -39,13 +40,13 @@ bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  return (self->_idx > other->_idx);
+  return (self->_idx > other->_idx ? true : false);
 }
 
 bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  return (self->_idx < other->_idx);
+  return (self->_idx < other->_idx ? true : false);
 }
 
 void ArrayIterator_incr(ArrayIteratorClass* self)
@@ -94,6 +95,7 @@ static ArrayIteratorClass ArrayIteratorDescr = {
 
 static Class* ArrayIterator = (Class*) &ArrayIteratorDescr;
 
+// args: (1: size_t _size) (2: Class* _type) (3: default_value)
 void Array_ctor(ArrayClass* self, va_list* args)
 {
   size_t i;
@@ -138,14 +140,14 @@ Iterator* Array_begin(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, self->_tab[0]));
+  return (new(ArrayIterator, 0, self->_tab[0]));
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (len(&self->base) == 0) return NULL;
-  return (new(ArrayIterator, self->_tab[len(&self->base) - 1]));
+  return (new(ArrayIterator, len(&self->base) - 1, self->_tab[len(&self->base) - 1]));
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
