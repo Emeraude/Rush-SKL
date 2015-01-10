@@ -45,7 +45,7 @@ static char const *Vertex_to_string_t(Object *self)
   if (!self) raise("Arguments must be initialized.");
   asprintf(&str, "<Vertex (%d, %d, %d)>", ((VertexClass *)self)->x,
            ((VertexClass *)self)->y, ((VertexClass *)self)->z);
-  return (char const *)str;  
+  return (char const *)str;
 }
 
 static Object *Vertex_add(const Object *self, const Object *other)
