@@ -26,37 +26,50 @@ typedef struct {
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
   if (!self) raise("Arguments must be initialized.");
-
+  self->_idx = 0;
+  self->_array = va_arg(*args, ArrayClass*);
 }
 
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (!self) raise("Arguments must be initialized.");
+  if (!self || !other) raise("Arguments must be initialized.");
+  return (self->_idx == other->_idx);
 }
 
 bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (!self) raise("Arguments must be initialized.");
+  if (!self || !other) raise("Arguments must be initialized.");
+  return (self->_idx > other->_idx);
 }
 
 bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (!self) raise("Arguments must be initialized.");
+  if (!self || !other) raise("Arguments must be initialized.");
+  return (self->_idx < other->_idx);
 }
 
 void ArrayIterator_incr(ArrayIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
+  self->_idx++;
 }
 
 Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
+  return (self->_array + self->_idx);
 }
 
 void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
+  Object *obj;
+  va_list ap;
+
   if (!self) raise("Arguments must be initialized.");
+  va_start(ap, self);
+  obj = va_arg(ap, Object*);
+  ((Class*)obj)->__init__(obj, &ap);
+  va_end(ap);
 }
 
 static ArrayIteratorClass ArrayIteratorDescr = {
@@ -124,15 +137,15 @@ size_t Array_len(ArrayClass* self)
 Iterator* Array_begin(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  if (len(self) == 0) return NULL;
-  return (self->_array[0]);
+  if (len(&self->base) == 0) return NULL;
+  return (new(ArrayIterator, self->_tab[0]));
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  if (len(self) == 0) return NULL;
-  return (self->_array[len(self) - 1]);
+  if (len(&self->base) == 0) return NULL;
+  return (self->_tab[len(self) - 1]);
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
