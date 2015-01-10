@@ -19,7 +19,7 @@ static void Vertex_ctor(Object* self, va_list *args)
 
 static void Vertex_dtor(Object* self)
 {
-  ((PointClass *)self)->base.__str__(NULL);
+  ((VertexClass *)self)->base.__str__(NULL);
 }
 
 static char const *Vertex_to_string_t(Object *self) {
