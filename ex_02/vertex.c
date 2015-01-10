@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <stdio.h>
-#include "point.h"
+#include "vertex.h"
 
 typedef struct
 {
