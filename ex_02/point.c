@@ -14,7 +14,6 @@ static void Point_ctor(Object* self, va_list *args)
 {
   ((PointClass *)self)->x = va_arg(*args, int);
   ((PointClass *)self)->y = va_arg(*args, int);
-  printf("Point(%d, %d)\n", ((PointClass *)self)->x, ((PointClass *)self)->y);
 }
 
 static void Point_dtor(Object* self)

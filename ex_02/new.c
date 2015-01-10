@@ -28,8 +28,8 @@ Object		*new(Class *class, ...) {
 Object		*va_new(Class* class, va_list *ap) {
   Class		*new;
 
-  if ((new = malloc(sizeof(*class))) == NULL
-      || memcpy(new, class, sizeof(*class)) == NULL)
+  if ((new = malloc(class->__size__)) == NULL
+      || memcpy(new, class, class->__size__) == NULL)
     raise("Error on constructor.");
   if (new->__init__)
     new->__init__(new, ap);
