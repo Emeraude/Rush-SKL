@@ -1,0 +1,21 @@
+.TH RUSH-SKL "1" "January 2015" "v1.0" "SKL"
+.NAME
+\fBClasses\fR : \fIPoint\fR, \fIVertex\fR
+.SH SYNOPSIS
+.TP
+\fBObject *new(Class *\fIclass\fR, \fI...\fB);\fR
+Create an object of type \fIclass\fR and return it. Raise an error if alloc is impossible. Custom values can be given to the parameter using \fI...\fR.
+.TP
+\fBvoid delete(Object *\fIptr\fB);\fR
+Delete the object pointed by \fIptr\fR.
+.TP
+\fBvoid const *object.to_string(Object *\fR\fIself\fB);\fR
+Return a string to the form \fB"<\fIname\fR (\fIint\fB, \fIint\fB)>"\fR. Note that this is string has been dynamically allocated. You have to free it.
+.SH BUGS
+.PP
+No known bug.
+.br
+Report SKL bugs to broggi_t@epitech.eu, duques_g@epitech.eu, kalatz_a@epitech.eu or poulet_a@epitech.eu
+.SH AUTHOR
+.PP
+Written by broggi_t, duques_g, kalatz_a and poulet_a.
