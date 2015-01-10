@@ -19,7 +19,7 @@ static int Int_lt(const Object *self, const Object *other);
 
 typedef struct
 {
-    Class base;
+  Class base;
   int x;
 } IntClass;
 

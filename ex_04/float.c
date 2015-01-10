@@ -19,7 +19,7 @@ static int Float_lt(const Object *self, const Object *other);
 
 typedef struct
 {
-    Class base;
+  Class base;
   float x;
 } FloatClass;
 
