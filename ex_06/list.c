@@ -50,7 +50,7 @@ bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
   if (!other->_idx) return false;
-  return (eq(self->_idx, other->_idx) ? true : false);
+  return (self->_idx == other->_idx ? true : false);
 }
 
 bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
