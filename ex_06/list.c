@@ -44,7 +44,7 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
   self->_idx = tmp;
 }
 
-static bool isAfter(ListIteratorClass* self, ListIteratorClass* other)
+static bool isBefore(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListClass *tmp;
 
@@ -59,7 +59,7 @@ static bool isAfter(ListIteratorClass* self, ListIteratorClass* other)
   return false;
 }
 
-static bool isBefore(ListIteratorClass* self, ListIteratorClass* other)
+static bool isAfter(ListIteratorClass* self, ListIteratorClass* other)
 {
   return isAfter(other, self);
 }
@@ -75,20 +75,20 @@ bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
   if (!self->_idx || !other->_idx) return false;
-  return (isAfter(self->_idx, other->_idx) ? true : false);
+  return (isAfter(self, other) ? true : false);
 }
 
 bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
   if (!self->_idx || !other->_idx) return false;
-  return (isBefore(self->_idx, other->_idx) ? true : false);
+  return (isBefore(self, other) ? true : false);
 }
 
 void ListIterator_incr(ListIteratorClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  if (self->_idx->_next)
+  if (self->_idx)
     self->_idx = self->_idx->_next;
 }
 
@@ -207,7 +207,6 @@ Iterator* List_begin(ListClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (self->_size == 0) return NULL;
-  printf("THIS IS THE BEGIN OF MY REIGN HEIL\n");
   return (new(ListIterator, 0, self));
 }
 
@@ -215,7 +214,6 @@ Iterator* List_end(ListClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
   if (self->_size == 0) return NULL;
-  printf("THIS IS THE END OF MY REIGN HEIL %u\n", self->_size);
   return (new(ListIterator, self->_size - 1, self));
 }
 
@@ -271,4 +269,3 @@ static ListClass _descr = {
 };
 
 Class* List = (Class*) &_descr;
-
