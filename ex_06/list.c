@@ -109,25 +109,34 @@ static ListIteratorClass ListIteratorDescr = {
 
 static Class* ListIterator = (Class*) &ListIteratorDescr;
 
-static void List_push_front(ListClass *list, Object *new) {
+static void List_push_back(ListClass *list, Object *new) {
   ListClass *newNode;
 
   if (!list || !new) raise("Arguments must be initialized.");
+
+  // Initialize the new node
   if ((newNode = malloc(sizeof(ListClass))) == NULL) raise("Out of memory.");
   newNode->_object = new;
-  newNode->_next = list;
-  list = newNode;
-  list->_size--;
+  newNode->_next = NULL;
+  newNode->_size = 0;
+  newNode->_type = list->_type;
+
+  // Set the new node at the end of the list
+  list->_size++;
+  while (list && list->_next)
+    list = list->_next;
+  list->_next = newNode;
 }
 
-static void List_pop_front(ListClass *list) {
-  ListClass *tmp;
-
+static void List_pop_back(ListClass *list) {
   if (!list) raise("Arguments must be initialized.");
-  tmp = list;
-  list = list->_next;
+
+  // free and set to null the last element of the list
   list->_size--;
-  free(tmp);
+  while (list && list->_next)
+    list = list->_next;
+  free(list);
+  list->_next = NULL;
 }
 
 // args: (1: size_t _size) (2: Class* _type) (3: default_value)
@@ -138,14 +147,15 @@ void List_ctor(ListClass* self, va_list* args)
   if (!self) raise("Arguments must be initialized.");
   self->_size = va_arg(*args, size_t);
   self->_type = va_arg(*args, Class*);
+  // _object and _next are null
   if (((ListClass *)self)->_size == 0) return ;
 
   va_list default_argument;
 
-  for (i=0; i < self->_size; i++)
+  for (i = self->_size; i; i--)
     {
       va_copy(default_argument, *args);
-      List_push_front(self, va_new(self->_type, &default_argument));
+      List_push_back(self, va_new(self->_type, &default_argument));
       va_end(default_argument);
     }
 }
@@ -157,7 +167,7 @@ void List_dtor(ListClass* self)
   if (!self) raise("Arguments must be initialized.");
   for (i=0; i < self->_size ; i++)
     {
-      List_pop_front(self);
+      List_pop_back(self);
     }
 }
 
@@ -183,6 +193,22 @@ Iterator* List_end(ListClass* self)
 
 Object* List_getitem(ListClass* self, ...)
 {
+  size_t i;
+  va_list ap;
+
+  if (!self) raise("Arguments must be initialized.");
+  va_start(ap, self);
+  i = va_arg(ap, size_t) + 1;
+  while (i-- && self)
+    self = self->_next;
+  if (!i) raise("Argument idx is higher than list length.");
+  va_end(ap);
+  printf("getitem %s\n", str(self->_object));
+  return self->_object;
+}
+
+void List_setitem(ListClass* self, ...)
+{
   size_t i, j;
   va_list ap;
   ListClass *tmp;
@@ -194,24 +220,6 @@ Object* List_getitem(ListClass* self, ...)
     raise("Argument idx is higher than list length.");
   tmp = self;
   for (j = 0; tmp && j < i; ++j)
-    tmp = tmp->_next;
-  va_end(ap);
-  return tmp->_object;
-}
-
-void List_setitem(ListClass* self, ...)
-{
-  size_t i;
-  va_list ap;
-  ListClass *tmp;
-
-  if (!self) raise("Arguments must be initialized.");
-  va_start(ap, self);
-  i = va_arg(ap, size_t);
-  if (i > self->_size)
-    raise("Argument idx is higher than list length.");
-  tmp = self;
-  while (tmp && tmp->_next)
     tmp = tmp->_next;
   ((Class *)tmp->_object)->__init__(tmp->_object, &ap);
   va_end(ap);
