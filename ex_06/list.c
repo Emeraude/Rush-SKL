@@ -46,6 +46,26 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
   self->_idx = tmp;
 }
 
+static bool isAfter(ListIteratorClass* self, ListIteratorClass* other)
+{
+  ListClass *tmp;
+
+  if (!self || !other) raise("Arguments must be initialized.");
+  if (!self->_idx || !other->_idx) return false;
+  tmp = self->_idx;
+  while (tmp) {
+    tmp = tmp->_next;
+    if (tmp == other->_idx)
+      return true;
+  }
+  return false;
+}
+
+static bool isBefore(ListIteratorClass* self, ListIteratorClass* other)
+{
+  return isAfter(other, self);
+}
+
 bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
@@ -64,8 +84,8 @@ bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
   if (!self->_idx || !other->_idx) return false;
-  printf("%s\n", str(self->_idx->_object)); 
-  printf("%s\n", str(other->_idx->_object)); 
+  printf("%s\n", str(self->_idx->_object));
+  printf("%s\n", str(other->_idx->_object));
   printf(" <%i> \n", lt(self->_idx->_object, other->_idx->_object));
   return (lt(self->_idx->_object, other->_idx->_object) ? true : false);
 }
