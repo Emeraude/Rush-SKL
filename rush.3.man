@@ -24,9 +24,6 @@ Return a new object that corresponds to a multiplication of \fIself\fR and \fIot
 \fBObject div(const Object *\fIself\fB, const Object *\fIother\fB);\fR
 Return a new object that corresponds to a division of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type.
 .TP
-\fBObject mod(const Object *\fIself\fB, const Object *\fIother\fB);\fR
-Return a new object that corresponds to a modulo of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type. Not that this only works for \fIChar\fR and \fIInt\fR.
-.TP
 \fBint eq(const Object *\fIself\fB, const Object *\fIcmp\fB);\fR
 Return \fI1\fR if \fIself\fR is equal to \fIcmp\fB ; return \fI0\fR in other cases.
 .TP
@@ -35,6 +32,18 @@ Return \fI1\fR if \fIself\fR is lower than \fIcmp\fB ; return \fI0\fR in other c
 .TP
 \fBint gt(const Object *\fIself\fB, const Object *\fIcmp\fB);\fR
 Return \fI1\fR if \fIself\fR is greater than \fIcmp\fB ; return \fI0\fR in other cases.
+.TP
+\fBvoid popfront(ListClass *\fIlist\fB);\fR
+Remove the first element of the list \fIlist\fB.
+.TP
+\fBvoid popback(ListClass *\fIlist\fB);\fR
+Remove the last element of the list \fIlist\fB.
+.TP
+\fBvoid pushfront(ListClass *\fIlist\fB, Object *\fInew\fB);\fR
+Create a new element and add it at the beginning of the list \fIlist\fR. The new element has the value of \fInew\fR.
+.TP
+\fBvoid pushback(ListClass *\fIlist\fB, Object *\fInew\fB);\fR
+Create a new element and add it at the end of the list \fIlist\fR. The new element has the value of \fInew\fR.
 .SH ITERATORS
 .PP Some custom iterators are defined. They are the following :
 .TP
@@ -60,7 +69,7 @@ Return \fItrue\fR if iterator \fIit\fR is greater than \fIcmp\fR ; return \fIfal
 Return \fItrue\fR if iterator \fIit\fR is equal to \fIcmp\fR ; return \fIfalse\fR in other cases.
 .SH BONUSES
 .PP
-There is a decrement interator. We can do modulos.
+There is a decrement interator. Functions \fBpopback\fR, \fBpopfront\fR, \fBpushback\fR, \fBpushfront\fR are also available to manage lists.
 .SH BUGS
 .PP
 No known bug.
