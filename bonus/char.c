@@ -94,6 +94,18 @@ static Object *Char_div(const Object *self, const Object *other)
   return sub;
 }
 
+static Object *Char_mod(const Object *self, const Object *other)
+{
+  Object *sub;
+
+  if (!self || !other) raise("Arguments must be initialized.");
+  if (!((CharClass *)other)->x) raise("Dividing by zero");
+  sub = new(Char, ((CharClass *)self)->x);
+  if (!other || !sub) return sub;
+  ((CharClass *)sub)->x %= ((CharClass *)other)->x;
+  return sub;
+}
+
 static int Char_eq(const Object *self, const Object *other)
 {
   if (!self || !other) raise("Arguments must be initialized.");

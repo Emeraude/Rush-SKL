@@ -91,6 +91,17 @@ static Object *Int_div(const Object *self, const Object *other)
   return sub;
 }
 
+static Object *Int_mod(const Object *self, const Object *other)
+{
+  Object *sub;
+
+  if (!self || !other) raise("Arguments must be initialized.");
+  if (!((IntClass *)other)->x) raise("Dividing by zero");
+  sub = new(Int, ((IntClass *)self)->x);
+  ((IntClass *)sub)->x %= ((IntClass *)other)->x;
+  return sub;
+}
+
 static int Int_eq(const Object *self, const Object *other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
