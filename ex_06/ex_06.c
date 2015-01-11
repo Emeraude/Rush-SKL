@@ -16,7 +16,7 @@ int		main()
   Object *listFloat = new(List, 5, Float, 42.00f);
   Object *listChar = new(List, 5, Char, 'a');
 
-  printf("\n--- Test basics ---\n");
+  printf("\n--- Basics Test ---\n");
   printf("Val 42 : %s\n", str(getitem(listInt, 4)));
   printf("Val 42 : %s\n", str(getitem(listFloat, 4)));
   printf("Val 42 : %s\n", str(getitem(listChar, 4)));
@@ -42,26 +42,14 @@ int		main()
   printf("Val z : %s\n", str(getitem(listChar, 4)));
 
   printf("\n\n");
-  Object *itInt = begin(listInt);
-  Object *itFloat = begin(listFloat);
-  Object *itChar = begin(listChar);
-
-  Object *it2Int = end(listInt);
-  Object *it2Float = end(listFloat);
-  Object *it2Char = end(listChar);
-
-  while (eq(itInt, it2Int))
-    {
-      printf("%s\n", str(getval(itInt)));
-      incr(itInt);
-    }
 
 
-  Object* list = new(List, 20, Int, 0);
+  Object* list = new(List, 10, Int, 0);
   Object* it = begin(list);
   Object* it_end = end(list);
 
-  printf("list size: %zu\n", len(list));
+  printf("\n--- Second basics test ---\n");
+  printf("The list has a size of %zu\n", len(list));
   setitem(list, 0, -1);
   setitem(list, 5, 12);
   setitem(list, 6, 13);
@@ -71,24 +59,24 @@ int		main()
   printf("%s\n", str(getval(it)));
   printf("%s\n", str(getval(it_end)));
 
-  printf("begin to run through\n");
+  printf("\nbegin to run through\n");
   int i = 0;
   while (i < 10)
     {
-      printf("the int [%u] is : %s\n", i, str(getitem(list, i)));
+      printf("the Intnt [%u] is : %s\n", i, str(getitem(list, i)));
       i++;
     }
 
   printf("\n\n--------\n");
   i = 0;
-  while (lt(it, it_end))
+  while (eq(it, it_end) == false)
     {
-      printf("i ... %u ...\n", i);
-      printf("The int [%u] is : %s\n", i, str(getval(it)));
+      printf("The Intnt [%u] is : %s\n", i, str(getval(it)));
       incr(it);
       i++;
-  }
+    }
   printf("\n\n--------\n");
+  printf("The End\n");
 
   delete(it);
   delete(it_end);
