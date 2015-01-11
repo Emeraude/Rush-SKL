@@ -29,5 +29,12 @@ int main()
     delete(point);
     delete(vertex);
 
+    point = new(Point, -42, -42);
+    vertex = new(Vertex, -42, -42, -4242);
+    printf("point = %s\n", str(point));
+    printf("vertex = %s\n", str(vertex));
+    delete(point);
+    delete(vertex);
+
     return 0;
 }
