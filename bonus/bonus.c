@@ -41,7 +41,6 @@ int		main()
   printf("Val 84 : %s\n", str(getitem(listFloat, 4)));
   printf("Val z : %s\n", str(getitem(listChar, 4)));
 
-
   delete(listInt);
   delete(listFloat);
   delete(listChar);
@@ -68,7 +67,7 @@ int		main()
   int i = 0;
   while (i < 10)
     {
-      printf("the Intnt [%u] is : %s\n", i, str(getitem(list, i)));
+      printf("the Int [%u] is : %s\n", i, str(getitem(list, i)));
       i++;
     }
 
@@ -76,13 +75,28 @@ int		main()
   i = 0;
   while (eq(it, it_end) == false)
     {
-      printf("The Intnt [%u] is : %s\n", i, str(getval(it)));
+      printf("The Int [%u] is : %s\n", i, str(getval(it)));
       incr(it);
       i++;
     }
   printf("\n\n--------\n");
   printf("The End\n");
 
+  printf("the Int [%u] is : %s == -1\n", 0, str(getitem(list, 0)));
+  popfront(list);
+  printf("the Int [%u] is : %s == 0\n", 0, str(getitem(list, 0)));
+  printf("the Int [%u] is : %s == -1\n", 8, str(getitem(list, 8)));
+  popback(list);
+  printf("the Int [%u] is : %s == 0\n", 7, str(getitem(list, 7)));
+
+
+  Object* lastInt = new(Int, -42);
+  pushfront(list, lastInt);
+  printf("the Int [%u] is : %s == -42\n", 0, str(getitem(list, 0)));
+  pushback(list, lastInt);
+  printf("the Int [%u] is : %s == -42\n", 9, str(getitem(list, 9)));
+
+  delete(lastInt);
   delete(it);
   delete(it_end);
   delete(list);
