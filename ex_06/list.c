@@ -32,14 +32,12 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
   size_t i;
   ListClass *tmp;
 
-  printf("Construction de l'iterateur\n");
   if (!self) raise("Arguments must be initialized.");
   i = va_arg(*args, size_t);
   self->_list = va_arg(*args, ListClass*);
   if (i > self->_list->_size)
     raise("Argument idx is higher than list length.");
 
-  printf("On pointe l'iterateur vers %u/%u\n", i, self->_list->_size);
   tmp = self->_list->_next;
   while (i--)
     tmp = tmp->_next;
@@ -69,25 +67,22 @@ static bool isBefore(ListIteratorClass* self, ListIteratorClass* other)
 bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  if (!other->_idx) return false;
-  return (eq(self->_idx, other->_idx) ? true : false);
+  if (!self->_idx || !other->_idx) return false;
+  return (self->_idx == other->_idx ? true : false);
 }
 
 bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  if (!other->_idx) return false;
-  return (gt(self->_idx, other->_idx) ? true : false);
+  if (!self->_idx || !other->_idx) return false;
+  return (isAfter(self->_idx, other->_idx) ? true : false);
 }
 
 bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
   if (!self->_idx || !other->_idx) return false;
-  printf("%s\n", str(self->_idx->_object));
-  printf("%s\n", str(other->_idx->_object));
-  printf(" <%i> \n", lt(self->_idx->_object, other->_idx->_object));
-  return (lt(self->_idx->_object, other->_idx->_object) ? true : false);
+  return (isBefore(self->_idx, other->_idx) ? true : false);
 }
 
 void ListIterator_incr(ListIteratorClass* self)
