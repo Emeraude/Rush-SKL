@@ -228,7 +228,6 @@ Object* List_getitem(ListClass* self, ...)
   if (i > self->_size) raise("Argument idx is higher than list length.");
   while (i-- && self)
     self = self->_next;
-  if (!i) raise("Argument idx is higher than list length.");
   if (!self->_object) raise("The given id doesn't exists in the list.");
   va_end(ap);
   return self->_object;
