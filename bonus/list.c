@@ -162,6 +162,23 @@ static void List_push_back(ListClass *list, Object *new) {
   list->_next->_prev = list;
 }
 
+static void List_push_front(ListClass *list, Object *new) {
+  ListClass *newNode;
+
+  if (!list || !new) raise("Arguments must be initialized.");
+
+  // Initialize the new node
+  if ((newNode = malloc(sizeof(ListClass))) == NULL) raise("Out of memory.");
+  newNode->_object = new;
+  newNode->_next = list->_next;
+  newNode->_size = 0;
+  newNode->_type = list->_type;
+
+  // Set the new node at the end of the list
+  list->_size++;
+  list->_next = newNode;
+}
+
 static void List_pop_back(ListClass *list) {
   if (!list) raise("Arguments must be initialized.");
 
@@ -175,6 +192,21 @@ static void List_pop_back(ListClass *list) {
     list->_next->_next->_prev = list->_next;
   free(list->_next);
   list->_next = NULL;
+}
+
+static void List_pop_front(ListClass *list) {
+  ListClass *tmp;
+
+  if (!list) raise("Arguments must be initialized.");
+
+  // free and set to null the last element of the list
+  if (list->_size == 0) return;
+  list->_size--;
+  tmp = list->_next;
+  list->_next = list->_next->_next;
+  list->_next->_prev = list;
+
+  free(tmp);
 }
 
 // args: (1: size_t _size) (2: Class* _type) (3: default_value)
@@ -240,6 +272,7 @@ Object* List_getitem(ListClass* self, ...)
   while (i-- && self)
     self = self->_next;
   if (!i) raise("Argument idx is higher than list length.");
+  if (!self->_object) raise("The given id doesn't exists in the list.");
   va_end(ap);
   return self->_object;
 }
@@ -276,6 +309,10 @@ static ListClass _descr = {
         (iter_t) &List_end,
         (getitem_t) &List_getitem,
         (setitem_t) &List_setitem,
+        (pushback_t) &List_push_back,
+        (pushfront_t) &List_push_front,
+        (popback_t) &List_pop_back,
+        (popfront_t) &List_pop_front
     },
     NULL, 0, NULL, NULL, NULL
 };
