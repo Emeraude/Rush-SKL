@@ -24,6 +24,7 @@ typedef struct {
     binary_operator_t   __sub__;
     binary_operator_t   __mul__;
     binary_operator_t   __div__;
+    binary_operator_t   __mod__;
     binary_comparator_t __eq__;
     binary_comparator_t __gt__;
     binary_comparator_t __lt__;
@@ -34,6 +35,7 @@ typedef struct {
 # define sub(a, b) (((Class*) a)->__sub__(a, b))
 # define mul(a, b) (((Class*) a)->__mul__(a, b))
 # define div(a, b) (((Class*) a)->__div__(a, b))
+# define mod(a, b) (((Class*) a)->__mod__(a, b))
 # define eq(a, b) (((Class*) a)->__eq__(a, b))
 # define gt(a, b) (((Class*) a)->__gt__(a, b))
 # define lt(a, b) (((Class*) a)->__lt__(a, b))
