@@ -1,22 +1,66 @@
 .TH RUSH-SKL "1" "January 2015" "v1.0" "SKL"
-.NAME
-\fBClasses\fR : \fIPoint\fR, \fIVertex\fR
+.TP NAME
+\fBClasses\fR : \fIChar\fR, \fIInt\fR, \fIFloat\fR
 .SH SYNOPSIS
 .TP
 \fBObject *new(Class *\fIclass\fR, \fI...\fB);\fR
-Create an object of type \fIclass\fR and return it. Raise an error if alloc is impossible. Custom values can be given to the parameter using \fI...\fR.
+Create an object of type \fIclass\fR and return it. Raise an error if alloc is impossible. Custom values can be given to the parameter using \fI...\fR. Each object created with \fBnew()\fR has to be destroyed with \fBdelete()\fR.
 .TP
 \fBvoid delete(Object *\fIptr\fB);\fR
 Delete the object pointed by \fIptr\fR.
 .TP
-\fBvoid const *object.to_string(Object *\fR\fIself\fB);\fR
-Return a string to the form \fB"<\fIname\fR (\fIint\fB, \fI...\fB)>"\fR. Note that this is string has been dynamically allocated. You have to free it.
+\fBvoid const *str(Object *\fR\fIself\fB);\fR
+Return a string to the form \fB"<\fIname\fB (\fIint\fB, \fI...\fB)>"\fR. Note that this is string has been dynamically allocated. You have to free it.
 .TP
-\fBObject *object.add(const Object *\fIself\fB, const Object *\fIother\fB);\fR
-Return a new object that corresponds to an addition of \fIself\fR and \fIother\fR. This new object has to be destructed after usage.
+\fBObject add(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to an addition of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type.
 .TP
-\fBObject *object.sub(const Object *\fIself\fB, const Object *\fIother\fB);\fR
-Return a new object that corresponds to an substraction of \fIself\fR and \fIother\fR. This new object has to be destructed after usage.
+\fBObject sub(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to a substraction of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type.
+.TP
+\fBObject mul(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to a multiplication of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type.
+.TP
+\fBObject div(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to a division of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type.
+.TP
+\fBObject mod(const Object *\fIself\fB, const Object *\fIother\fB);\fR
+Return a new object that corresponds to a modulo of \fIself\fR and \fIother\fR. This new object has to be destructed after usage. Note that \fIself\fR and \fIother\fR have to be the same type. Not that this only works for \fIChar\fR and \fIInt\fR.
+.TP
+\fBint eq(const Object *\fIself\fB, const Object *\fIcmp\fB);\fR
+Return \fI1\fR if \fIself\fR is equal to \fIcmp\fB ; return \fI0\fR in other cases.
+.TP
+\fBint lt(const Object *\fIself\fB, const Object *\fIcmp\fB);\fR
+Return \fI1\fR if \fIself\fR is lower than \fIcmp\fB ; return \fI0\fR in other cases.
+.TP
+\fBint gt(const Object *\fIself\fB, const Object *\fIcmp\fB);\fR
+Return \fI1\fR if \fIself\fR is greater than \fIcmp\fB ; return \fI0\fR in other cases.
+.SH ITERATORS
+.PP Some custom iterators are defined. They are the following :
+.TP
+\fBObject* begin(Object *\fIlist\fB);\fR
+Create a new iterator that iterate on \fIlist\fR. Each iterator created with \fBbegin()\fR has to be destroyed with \fBend()\fR.
+.TP
+\fBObject* end(Object *\fIlist\fB);\fR
+Delete the iterator that iterate on \fIlist\fR.
+.TP
+\fBvoid incr(Object *\fIit\fB);\fR
+Increment the iterator \fIit\fR.
+.TP
+\fBvoid decr(Object *\fIit\fB);\fR
+Decrement the iterator \fIit\fR.
+.TP
+\fBvoid lt(Object *\fIit\fB, Object *\fIcmp\fB);\fR
+Return \fItrue\fR if iterator \fIit\fR is lower than \fIcmp\fR ; return \fIfalse\fR in other cases.
+.TP
+\fBvoid gt(Object *\fIit\fB, Object *\fIcmp\fB);\fR
+Return \fItrue\fR if iterator \fIit\fR is greater than \fIcmp\fR ; return \fIfalse\fR in other cases.
+.TP
+\fBvoid eq(Object *\fIit\fB, Object *\fIcmp\fB);\fR
+Return \fItrue\fR if iterator \fIit\fR is equal to \fIcmp\fR ; return \fIfalse\fR in other cases.
+.SH BONUSES
+.PP
+There is a decrement interator. We can do modulos.
 .SH BUGS
 .PP
 No known bug.
