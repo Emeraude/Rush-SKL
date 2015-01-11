@@ -1,9 +1,9 @@
 /*
 ** new.c for  in /home/broggi_t/projet/rush-skl/ex_01
-** 
+**
 ** Made by broggi_t
 ** Login   <broggi_t@epitech.eu>
-** 
+**
 ** Started on  Sat Jan 10 12:50:09 2015 broggi_t
 ** Last update Sat Jan 10 22:40:42 2015 Alexandre Kalatzis
 */

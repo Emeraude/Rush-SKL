@@ -93,7 +93,7 @@ static Object *Int_div(const Object *self, const Object *other)
 
 static int Int_eq(const Object *self, const Object *other)
 {
-  if (!self || !other) raise("Arguments must be initialized.");  
+  if (!self || !other) raise("Arguments must be initialized.");
   return (((IntClass *)self)->x == ((IntClass *)other)->x);
 }
 

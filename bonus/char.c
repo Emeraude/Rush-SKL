@@ -96,7 +96,7 @@ static Object *Char_div(const Object *self, const Object *other)
 
 static int Char_eq(const Object *self, const Object *other)
 {
-  if (!self || !other) raise("Arguments must be initialized.");  
+  if (!self || !other) raise("Arguments must be initialized.");
   return (((CharClass *)self)->x == ((CharClass *)other)->x);
 }
 
