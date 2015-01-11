@@ -94,13 +94,6 @@ static Object *Float_div(const Object *self, const Object *other)
   return sub;
 }
 
-static Object *Float_mod(const Object *self, const Object *other)
-{
-  if (!self || !other) raise("Arguments must be initialized.");
-  raise("Modulos are impossible with Float type.");
-  return self;
-}
-
 static int Float_eq(const Object *self, const Object *other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
