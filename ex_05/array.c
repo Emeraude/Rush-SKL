@@ -26,9 +26,13 @@ typedef struct {
 // args: (1: size_t _idx) (2: ArrayClass* _array)
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
+  size_t length;
+
   if (!self) raise("Arguments must be initialized.");
-  self->_idx = va_arg(*args, size_t);
+  length = va_arg(*args, size_t);
   self->_array = va_arg(*args, ArrayClass*);
+  if (length > self->_array->_size)
+    raise("Argument idx is higher than array length.");
 }
 
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
