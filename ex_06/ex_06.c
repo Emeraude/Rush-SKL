@@ -21,9 +21,9 @@ int		main()
   printf("Val 42 : %s\n", str(getitem(listFloat, 4)));
   printf("Val 42 : %s\n", str(getitem(listChar, 4)));
 
-  printf("Len 5 : %i\n", len(listInt));
-  printf("Len 5 : %i\n", len(listFloat));
-  printf("Len 5 : %i\n", len(listChar));
+  printf("Len 5 : %u\n", (unsigned int)len(listInt));
+  printf("Len 5 : %u\n", (unsigned int)len(listFloat));
+  printf("Len 5 : %u\n", (unsigned int)len(listChar));
 
   setitem(listInt, 4, 21);
   setitem(listFloat, 4, 21.00f);
@@ -41,6 +41,10 @@ int		main()
   printf("Val 84 : %s\n", str(getitem(listFloat, 4)));
   printf("Val z : %s\n", str(getitem(listChar, 4)));
 
+
+  delete(listInt);
+  delete(listFloat);
+  delete(listChar);
   printf("\n\n");
 
 
@@ -54,6 +58,7 @@ int		main()
   setitem(list, 5, 12);
   setitem(list, 6, 13);
   setitem(list, 9, -1);
+
 
   printf("Try to select beg/end\n");
   printf("%s\n", str(getval(it)));

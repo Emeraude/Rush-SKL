@@ -225,6 +225,7 @@ Object* List_getitem(ListClass* self, ...)
   if (!self) raise("Arguments must be initialized.");
   va_start(ap, self);
   i = va_arg(ap, size_t) + 1;
+  if (i > self->_size) raise("Argument idx is higher than list length.");
   while (i-- && self)
     self = self->_next;
   if (!i) raise("Argument idx is higher than list length.");
@@ -247,6 +248,8 @@ void List_setitem(ListClass* self, ...)
   tmp = self;
   for (j = 0; tmp && j < i; ++j)
     tmp = tmp->_next;
+  if (tmp == NULL) return ;
+  if ((Class *)tmp->_object == NULL) raise("Arguments must be initialized");
   ((Class *)tmp->_object)->__init__(tmp->_object, &ap);
   va_end(ap);
 }
