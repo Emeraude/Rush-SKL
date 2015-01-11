@@ -29,16 +29,19 @@ typedef struct {
 // args: (1: size_t _idx) (2: ListClass* _list)
 void ListIterator_ctor(ListIteratorClass* self, va_list* args)
 {
-  size_t i, j;
+  size_t i;
   ListClass *tmp;
 
+  printf("Construction de l'iterateur\n");
   if (!self) raise("Arguments must be initialized.");
   i = va_arg(*args, size_t);
   self->_list = va_arg(*args, ListClass*);
   if (i > self->_list->_size)
     raise("Argument idx is higher than list length.");
-  tmp = self->_list;
-  for (j = 0; tmp && j < i; ++j)
+
+  printf("On pointe l'iterateur vers %u/%u\n", i, self->_list->_size);
+  tmp = self->_list->_next;
+  while (i--)
     tmp = tmp->_next;
   self->_idx = tmp;
 }
@@ -46,19 +49,25 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
 bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
+  if (!other->_idx) return false;
   return (eq(self->_idx, other->_idx) ? true : false);
 }
 
 bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
+  if (!other->_idx) return false;
   return (gt(self->_idx, other->_idx) ? true : false);
 }
 
 bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (!self || !other) raise("Arguments must be initialized.");
-  return (lt(self->_idx, other->_idx) ? true : false);
+  if (!self->_idx || !other->_idx) return false;
+  printf("%s\n", str(self->_idx->_object)); 
+  printf("%s\n", str(other->_idx->_object)); 
+  printf(" <%i> \n", lt(self->_idx->_object, other->_idx->_object));
+  return (lt(self->_idx->_object, other->_idx->_object) ? true : false);
 }
 
 void ListIterator_incr(ListIteratorClass* self)
@@ -70,7 +79,7 @@ void ListIterator_incr(ListIteratorClass* self)
 
 Object* ListIterator_getval(ListIteratorClass* self)
 {
-  if (!self) raise("Arguments must be initialized.");
+  if (!self || !self->_idx) raise("Arguments must be initialized.");
   return (self->_idx->_object);
 }
 
@@ -132,10 +141,12 @@ static void List_pop_back(ListClass *list) {
   if (!list) raise("Arguments must be initialized.");
 
   // free and set to null the last element of the list
+  if (list->_size == 0) return;
   list->_size--;
-  while (list && list->_next)
+  list = list->_next;
+  while (list->_next && list->_next->_next)
     list = list->_next;
-  free(list);
+  free(list->_next);
   list->_next = NULL;
 }
 
@@ -145,18 +156,18 @@ void List_ctor(ListClass* self, va_list* args)
   size_t i;
 
   if (!self) raise("Arguments must be initialized.");
-  self->_size = va_arg(*args, size_t);
+  i = va_arg(*args, size_t);
   self->_type = va_arg(*args, Class*);
-  // _object and _next are null
-  if (((ListClass *)self)->_size == 0) return ;
+  // _size and _object and _next are null
 
   va_list default_argument;
 
-  for (i = self->_size; i; i--)
+  while (i)
     {
       va_copy(default_argument, *args);
       List_push_back(self, va_new(self->_type, &default_argument));
       va_end(default_argument);
+      i--;
     }
 }
 
@@ -180,15 +191,17 @@ size_t List_len(ListClass* self)
 Iterator* List_begin(ListClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  if (len(&self->base) == 0) return NULL;
+  if (self->_size == 0) return NULL;
+  printf("THIS IS THE BEGIN OF MY REIGN HEIL\n");
   return (new(ListIterator, 0, self));
 }
 
 Iterator* List_end(ListClass* self)
 {
   if (!self) raise("Arguments must be initialized.");
-  if (len(&self->base) == 0) return NULL;
-  return (new(ListIterator, len(&self->base) - 1, self));
+  if (self->_size == 0) return NULL;
+  printf("THIS IS THE END OF MY REIGN HEIL %u\n", self->_size);
+  return (new(ListIterator, self->_size - 1, self));
 }
 
 Object* List_getitem(ListClass* self, ...)
@@ -203,7 +216,6 @@ Object* List_getitem(ListClass* self, ...)
     self = self->_next;
   if (!i) raise("Argument idx is higher than list length.");
   va_end(ap);
-  printf("getitem %s\n", str(self->_object));
   return self->_object;
 }
 
@@ -215,7 +227,7 @@ void List_setitem(ListClass* self, ...)
 
   if (!self) raise("Arguments must be initialized.");
   va_start(ap, self);
-  i = va_arg(ap, size_t);
+  i = va_arg(ap, size_t) + 1;
   if (i > self->_size)
     raise("Argument idx is higher than list length.");
   tmp = self;
